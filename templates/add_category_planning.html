@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+    <div class="jumbotron">
+        <div class="container">
+            <h1 class="display-5">Add category planning!</h1>
+        </div>
+    </div>
+
+    <div class="container">
+
+        <div class="row">
+            <div class="col">
+                <h3>
+                    {{ planning.user }} - {{ planning.budget|floatformat:2 }}
+                    <span style="font-size: 50%">({{ planning.date_start|date:"SHORT_DATE_FORMAT" }} - {{ planning.date_end|date:"SHORT_DATE_FORMAT" }})</span>
+                </h3>
+            </div>
+        </div>
+
+        <hr>
+
+        <form action="{% url 'add_category_planning' planning.pk %}" method="post">
+            {% csrf_token %}
+            {{ formset.management_form }}
+            {% for form in formset %}
+                <div class="row">
+                    <div class="col">
+                        <div class="form-group">
+                            <label for="{{ form.id_for_label }}">Category:</label>
+                            {{ form.category }}
+                        </div>
+
+                    </div>
+                    <div class="col">
+                        <div class="form-group">
+                            <label for="{{ form.id_for_label }}">Budget:</label>
+                            {{ form.budget }}
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+
+            <div class="row">
+                <dic class="col text-right">
+                    <button type="reset" class="btn btn-secondary">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Finish</button>
+                </dic>
+            </div>
+        </form>
+
+    </div>
+{% endblock content %}

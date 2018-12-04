@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+    <div class="jumbotron">
+        <div class="container">
+            <h1 class="display-5">Planning list!</h1>
+        </div>
+    </div>
+
+    <div class="container">
+
+        <table class="table table-hover">
+            <thead>
+            <tr>
+                <th scope="col">User</th>
+                <th scope="col">Budget</th>
+                <th scope="col">Start date</th>
+                <th scope="col">End date</th>
+                <th scope="col" width="20%">Categories</th>
+                <th scope="col">Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for plan in plannings %}
+                <tr>
+                    <th scope="row">{{ plan.user.get_full_name }}</th>
+                    <td>{{ plan.budget|floatformat:2 }}</td>
+                    <td>{{ plan.date_start|date:"SHORT_DATE_FORMAT" }}</td>
+                    <td>{{ plan.date_end|date:"SHORT_DATE_FORMAT" }}</td>
+                    <td>
+                        {% for cp in plan.categoryplanning_set.all %}
+                            <span class="badge badge-secondary">{{ cp.category.name }} - {{ cp.budget|floatformat:2 }}</span>
+                        {% endfor %}
+                    </td>
+                    <td>
+                        <a href="{% url 'planning_expenses' plan.pk plan.user.username %}"
+                           class="btn btn-outline-primary btn-sm"
+                           data-toggle="tooltip" data-placement="top"
+                           title="See expenses"><i
+                                class="fa fa-eye"></i></a>
+                        <a href="{% url 'add_planning_expenses' plan.pk plan.user.username %}"
+                           class="btn btn-outline-primary btn-sm"
+                           data-toggle="tooltip" data-placement="top"
+                           title="Add expenses"><i class="fa fa-coins"></i></a>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock content %}

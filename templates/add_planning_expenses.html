@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+    <div class="jumbotron">
+        <div class="container">
+            <h1 class="display-5">Add planning expenses!</h1>
+        </div>
+    </div>
+
+    <div class="container">
+        <form action="{% url 'add_planning_expenses' plan.pk plan.user.username %}" method="post">
+            {% csrf_token %}
+            <div class="row">
+                <div class="col">
+                    <div class="form-group">
+                        <label for="{{ form.category_planning.id_for_label }}">Planning category:</label>
+                        {{ form.category_planning }}
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="form-group">
+                        <label for="{{ form.amount.id_for_label }}">Amount:</label>
+                        {{ form.amount }}
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col">
+                    <div class="form-group">
+                        <label for="{{ form.date.id_for_label }}">Date:</label>
+                        {{ form.date }}
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="form-group">
+                        <label for="{{ form.description.id_for_label }}">Description:</label>
+                        {{ form.description }}
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <dic class="col text-right">
+                    <button type="reset" class="btn btn-secondary">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Continue</button>
+                </dic>
+            </div>
+
+        </form>
+    </div>
+{% endblock content %}

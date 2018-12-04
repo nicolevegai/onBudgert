@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+    <main role="main">
+
+        <!-- Main jumbotron for a primary marketing message or call to action -->
+        <div class="jumbotron">
+            <div class="container">
+                <h1 class="display-3">onBudget!</h1>
+                <p>This is a template for a simple marketing or informational website. It includes a large callout
+                    called a
+                    jumbotron and three supporting pieces of content. Use it as a starting point to create something
+                    more
+                    unique.</p>
+                <p><a class="btn btn-primary btn-lg" href="{% url 'add_planning' %}" role="button">Add a new planning <i
+                        class="fa fa-plus"></i></a></p>
+            </div>
+        </div>
+
+        <div class="container">
+            <!-- Example row of columns -->
+            <div class="row">
+                {% for planning in planning_list %}
+                    <div class="col-md-4">
+                        <h2><i class="fa fa-calendar-alt"></i> Planning ({{ forloop.counter }})</h2>
+                        <p>
+                            This planning belongs to {{ planning.user.get_full_name }} and has a budget of
+                            ${{ planning.budget|floatformat:2 }}
+                            for the period between {{ planning.date_start|date:"SHORT_DATE_FORMAT" }}
+                            and {{ planning.date_end|date:"SHORT_DATE_FORMAT" }}.
+                        </p>
+                        <p><a class="btn btn-secondary" href="#" role="button">View details &raquo;</a></p>
+                    </div>
+                {% endfor %}
+            </div>
+
+            <hr>
+
+        </div> <!-- /container -->
+
+    </main>
+{% endblock content %}
