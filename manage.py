@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+# framework class in charge of managing the commands to work in Django.
 import os
 import sys
 

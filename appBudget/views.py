@@ -110,8 +110,8 @@ class CategoryPlanningFormView(FormView):
         formset_post = category_planning_formset(request.POST)
         # A  "fake" "save" is executed to obtain the instances (objects) that were recorded on screen
         instances = formset_post.save(commit=False)
-        # Iteration over the instances to add the user and the corresponding planning
-        # Se itera sobre las instancias para agregar el usuario y la planificación correspondiente ya que no estaban en pantalla
+
+        # Iteration over the instances to add the user and the corresponding planning ya que no estaban en pantalla
         for instance in instances:
             instance.planning = self.planning
             instance.user = self.planning.user
@@ -119,7 +119,7 @@ class CategoryPlanningFormView(FormView):
         super().post(request, *args, **kwargs)
         return HttpResponseRedirect(reverse('list_planning'))
 
-        # metodo para poner las variables necesarias en el contexto (para que puedan ser vistas en las pantallas HTML)
+        # method to put the neccesary variables in context ( so they can be seen in the HTML pages)
         # formset = {{ formset }}, planning = {{ planning }}
     def render_to_response(self, context, **response_kwargs):
         context['formset'] = self.formset
@@ -128,15 +128,17 @@ class CategoryPlanningFormView(FormView):
 
 
 """
-Vista con formulario para agregar las los gastos por categoría de una planificación
+View with the form to add the expenses per caategory in a Planning 
 """
 class PlanningExpensesFormView(FormView):
     template_name = 'add_planning_expenses.html'
     form_class = PlanningExpensesForm
 
     def get_context_data(self, **kwargs):
-        # filtro los category_plannings segun el usuario que está solicitando los gastos. Por tanto solo se muestran en el
-        # dropdown las CategoryPlanning que pertenezcan a un usuario especifico (el username es obtenido de los parametros de la URL)
+        # filter the category_planning according to the user that is requesting for the expenses.
+        # Because of this, in the dropdown only the CategoryPlanning that belong to a specific user are shown
+        # (the username is obtained from the parameter in the URL)
+
         self.form_class.base_fields['category_planning'].queryset = CategoryPlanning.objects.filter(
             user=User.objects.get(username=self.kwargs['username']))
         return super().get_context_data(**kwargs)
@@ -147,5 +149,5 @@ class PlanningExpensesFormView(FormView):
 
     def form_valid(self, form):
         form.save()
-        # redireccionar el flujo del sistema a una url especifica
+        # redirect the flow of the system to an specific URL
         return HttpResponseRedirect(reverse('list_planning'))
