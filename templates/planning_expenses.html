@@ -17,26 +17,27 @@
         </div>
 
         <div style="margin: 30px auto"></div>
-
-        <table class="table table-hover">
-            <thead>
-            <tr>
-                <th scope="col">Planning category</th>
-                <th scope="col">Date</th>
-                <th scope="col">Description</th>
-                <th scope="col">Amount</th>
-            </tr>
-            </thead>
-            <tbody>
-            {% for pe in planning_expenses %}
+        <div class="table-responsive">
+            <table class="table table-hover">
+                <thead>
                 <tr>
-                    <td scope="row"><span class="badge badge-secondary">{{ pe.category_planning }}</span></td>
-                    <td>{{ pe.date|date:"SHORT_DATE_FORMAT" }}</td>
-                    <td>{{ pe.description }}</td>
-                    <td>{{ pe.amount|floatformat:2 }}</td>
+                    <th scope="col">Planning category</th>
+                    <th scope="col">Date</th>
+                    <th scope="col">Description</th>
+                    <th scope="col">Amount</th>
                 </tr>
-            {% endfor %}
-            </tbody>
-        </table>
+                </thead>
+                <tbody>
+                {% for pe in planning_expenses %}
+                    <tr>
+                        <td scope="row"><span class="badge badge-secondary">{{ pe.category_planning }}</span></td>
+                        <td>{{ pe.date|date:"SHORT_DATE_FORMAT" }}</td>
+                        <td>{{ pe.description }}</td>
+                        <td>{{ pe.amount|floatformat:2 }}</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
     </div>
 {% endblock content %}

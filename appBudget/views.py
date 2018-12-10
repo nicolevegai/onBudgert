@@ -68,9 +68,8 @@ class CategoryPlanningFormView(FormView):
     success_url = 'index.html'
     planning = None
 
-    def get_form_kwargs(self):
-        return super().get_form_kwargs()
-
+    # el metodo "get" se usa para obtener la información del contexto y mostrarla en
+    # la pantalla.
     def get(self, request, *args, **kwargs):
         category_planning_formset = inlineformset_factory(Planning, CategoryPlanning, exclude=('planning', 'user',),
                                                           can_delete=False, extra=7,
@@ -79,6 +78,7 @@ class CategoryPlanningFormView(FormView):
         self.formset = category_planning_formset(instance=self.planning)
         return super().get(request, *args, **kwargs)
 
+    # El metodo "post" sirve para guardar la información de los formularios de pantalla
     def post(self, request, *args, **kwargs):
         category_planning_formset = inlineformset_factory(Planning, CategoryPlanning, exclude=('planning', 'user',),
                                                           can_delete=False, extra=7,
@@ -90,7 +90,8 @@ class CategoryPlanningFormView(FormView):
             instance.planning = self.planning
             instance.user = self.planning.user
             instance.save()
-        return super().post(request, *args, **kwargs)
+        super().post(request, *args, **kwargs)
+        return HttpResponseRedirect(reverse('list_planning'))
 
     def render_to_response(self, context, **response_kwargs):
         context['formset'] = self.formset
