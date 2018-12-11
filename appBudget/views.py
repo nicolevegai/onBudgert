@@ -94,6 +94,7 @@ class CategoryPlanningFormView(FormView):
     # the method "get" is used to obtain the information from the context and display it on screen
     def get(self, request, *args, **kwargs):
         category_planning_formset = inlineformset_factory(Planning, CategoryPlanning, exclude=('planning', 'user',),
+                                                          can_delete=False, extra=7,
                                                           # we exclude because we dont need that info, and we dont have a model that shows this specific needs (category and budget) so we use CategoryPlanningFormSet
                                                           formset=CategoryPlanningFormSet)
         self.planning = Planning.objects.get(pk=kwargs['pk'])  # para mostrar en el screen el username
